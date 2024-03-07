@@ -34,7 +34,7 @@ data "aws_subnets" "public" {
 }
 #cluster provision
 resource "aws_eks_cluster" "example" {
-  name     = "EKS_cluster_codewithmuh"
+  name     = "EKS_cluster_CAP"
   role_arn = aws_iam_role.example.arn
 
   vpc_config {
