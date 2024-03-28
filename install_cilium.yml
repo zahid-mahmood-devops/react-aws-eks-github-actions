@@ -1,0 +1,26 @@
+---
+- name: Install Cilium on EKS Cluster
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Update kubeconfig
+      shell: aws eks update-kubeconfig --region us-west-2 --name EKS_cluster_capautomation
+        #   environment:
+        #AWS_ACCESS_KEY_ID: YOUR_AWS_ACCESS_KEY_ID
+        #AWS_SECRET_ACCESS_KEY: YOUR_AWS_SECRET_ACCESS_KEY
+        #AWS_DEFAULT_REGION: YOUR_REGION
+
+    - name: Install Cilium
+      shell: kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml
+
+    - name: Verify Cilium Pods
+      shell: kubectl -n kube-system get pods -l k8s-app=cilium
+      register: cilium_pods
+      until: cilium_pods.stdout.find("Running") != -1
+      retries: 12
+      delay: 10
+
+    - name: Display Cilium Pods
+      debug:
+        msg: "{{ cilium_pods.stdout }}"
+
