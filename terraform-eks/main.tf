@@ -10,14 +10,11 @@ data "aws_subnets" "public" {
     values = [data.aws_vpc.default.id]
   }
 }
-<<<<<<< Updated upstream
 #cluster provision
-resource "aws_eks_cluster" "example" {
-  name     = "EKS_cluster_CAP"
-  role_arn = aws_iam_role.example.arn
-=======
->>>>>>> Stashed changes
-
+#resource "aws_eks_cluster" "cap" {
+#  name     = "EKS_cluster_CAP"
+#  role_arn = aws_iam_role.cap.arn
+#}
 module "eks_cluster" {
   source = "./eks_module"
 
